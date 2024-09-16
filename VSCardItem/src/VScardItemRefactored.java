@@ -4,11 +4,12 @@ import java.util.Map;
 import java.util.Optional;
 
 /**
- * 35 ?? инструкций
+ * Первоначальный метод - getType внутри VcardItem
  * ЦС первоначального метода - 3
  *
  * Значения выбираются при помощи разветвлённой if-else
  *
+ * Способы снижения ЦС:
  * 1. Избавление от if-else с помощью ad-hoc полиморфизма
  * 2. Избавление от switch
  *      добавил интерфейс TypeHandler и 11 классов-наследников -
@@ -132,12 +133,6 @@ public class ContactTypeHandler {
             }
 
             TypeHandler specialCaseHandler = specialCaseHandlers.get(value.toUpperCase());
-//            if (specialCaseHandler != null) {
-//                return specialCaseHandler.handle(fullData);
-//            }
-//
-//            value = value.substring(0, 1).toUpperCase() + value.substring(1).toLowerCase();
-//            return value;
             String result = Optional
                     .ofNullable(specialCaseHandler.handle(fullData))
                     .orElse("there were no applicable String");

@@ -5,9 +5,7 @@ import org.telegram.tgnet.tl.TL_stories;
 import org.telegram.ui.ChatActivity;
 import org.telegram.ui.Stories.StoriesStorage;
 
-import java.util.ArrayList;
-
-public class ChatMessagesMetadataController {
+public class ChatMessages {
 
     final ChatActivity chatActivity;
     private ArrayList<MessageObject> reactionsToCheck = new ArrayList<>(10);

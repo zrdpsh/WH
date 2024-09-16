@@ -91,24 +91,4 @@ public class BasePermissionsActivity extends FragmentActivity {
         return true;
     }
 
-//    protected AlertDialog createPermissionErrorAlert(@RawRes int animationId, String message) {
-//        return new AlertDialog.Builder(this)
-//                .setTopAnimation(animationId, AlertsCreator.PERMISSIONS_REQUEST_TOP_ICON_SIZE, false, Theme.getColor(Theme.key_dialogTopBackground))
-//                .setMessage(AndroidUtilities.replaceTags(message))
-//                .setPositiveButton(LocaleController.getString(R.string.PermissionOpenSettings), (dialogInterface, i) -> {
-//                    try {
-//                        Intent intent = new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-//                        intent.setData(Uri.parse("package:" + ApplicationLoader.applicationContext.getPackageName()));
-//                        startActivity(intent);
-//                    } catch (Exception e) {
-//                        FileLog.e(e);
-//                    }
-//                })
-//                .setNegativeButton(LocaleController.getString(R.string.ContactsPermissionAlertNotNow), null)
-//                .create();
-//    }
-//
-//    private void showPermissionErrorAlert(@RawRes int animationId, String message) {
-//        createPermissionErrorAlert(animationId, message).show();
-//    }
 }

@@ -1,4 +1,21 @@
 import java.util.ArrayList;
+import java.util.Optional;
+
+
+/**
+ * Первоначальный метод - loadStoriesForMessages внутри класса ChatMessages
+ * ЦС первоначального метода - 9
+ *
+ * Способы снижения ЦС:
+ * 1. Избавление от if-else с помощью ad-hoc полиморфизма,
+ * интерфейс StoryHandler, классы-наследники для каждой из проверок
+ * 2. Избавление от проверок на null
+ *
+ * переписанный метод - loadStoriesForMessages внутри класса ChatMessagesRefactored
+ * дополнительный файл - StoryHandlerFactory
+ * ЦС нового кода - 2
+ */
+
 
 public class ChatMessagesRefactored {
 
@@ -11,10 +28,6 @@ public class ChatMessagesRefactored {
     ArrayList<Integer> extendedMediaRequests = new ArrayList<>();
 
 
-    // убрать storyData
-    // убрать null
-
-
     public ChatMessagesRefactored(ChatActivity chatActivity) {
         this.chatActivity = chatActivity;
     }
@@ -24,27 +37,14 @@ public class ChatMessagesRefactored {
             return;
         }
         StoryHandlerFactory storyHandlerFactory = new StoryHandlerFactory();
-//        StringBuilder storyData = new StringBuilder();
 
-//        for (int i = 0; i < visibleObjects.size(); i++) {
-//            MessageObject messageObject = visibleObjects.get(i);
-//            StoryHandler handler = storyHandlerFactory.getHandler(messageObject.type);
-//
-//            // Handle the story based on type
-//            handler.handleStory(messageObject, storyData);
-//
-//            // Send request with simplified logic
-//            sendStoryRequest(storyData.toString(), messageObject);
-//        }
         visibleObjects.stream()
                 .forEach(messageObject -> {
                     StoryHandler handler = storyHandlerFactory.getHandler(messageObject.type);
 
-                    // Handle the story based on type
-                    StringBuilder storyData = new StringBuilder(); // Initialize StringBuilder inside the lambda
+                    StringBuilder storyData = new StringBuilder();
                     handler.handleStory(messageObject, storyData);
 
-                    // Send request with simplified logic
                     sendStoryRequest(storyData.toString(), messageObject);
                 });
 
@@ -53,12 +53,18 @@ public class ChatMessagesRefactored {
 
     private void sendStoryRequest(String storyData, MessageObject messageObject) {
         TL_stories.TL_stories_getStoriesByID req = new TL_stories.TL_stories_getStoriesByID();
+        long storyDialogId = storyItem.dialogId;
         req.peer = chatActivity.getMessagesController().getInputPeer(messageObject.messageOwner.media.user_id);
         req.id.add(Integer.parseInt(storyData));
 
         int reqId = chatActivity.getConnectionsManager().sendRequest(req, (response, error) -> {
-            TL_stories.StoryItem newStoryItem = (response != null) ? ((TL_stories.TL_stories_stories) response).stories.get(0) : new TL_stories.TL_storyItemDeleted();
-            updateUIWithStory(newStoryItem, messageObject);
+            TL_stories.StoryItem newStoryItem = Optional.ofNullable(response)
+                    .map(resp -> ((TL_stories.TL_stories_stories) resp).stories.get(0))
+                    .orElseGet(TL_stories.TL_storyItemDeleted::new);
+
+            newStoryItem.lastUpdateTime = System.currentTimeMillis();
+            newStoryItem.id = storyId;
+            updateUIWithStory(newStoryItem, messageObject, storyDialogId);
         });
         extendedMediaRequests.add(reqId);
     }
@@ -69,11 +75,19 @@ public class ChatMessagesRefactored {
         }
     }
 
-    private void updateUIWithStory(TL_stories.StoryItem storyItem, MessageObject messageObject) {
+    private void updateUIWithStory(TL_stories.StoryItem storyItem, MessageObject messageObject, long storyDialogId) {
         boolean wasExpired = messageObject.isExpiredStory();
-        StoriesStorage.applyStory(chatActivity.getCurrentAccount(), storyItem.dialogId, messageObject, storyItem);
+        StoriesStorage.applyStory(chatActivity.getCurrentAccount(), storyDialogId, messageObject, storyItem);
         ArrayList<MessageObject> messageObjects = new ArrayList<>();
+        messageObject.forceUpdate = true;
         messageObjects.add(messageObject);
-        chatActivity.updateMessages(messageObjects, wasExpired && messageObject.type == MessageObject.TYPE_STORY_MENTION);
+        chatActivity.getMessagesStorage().getStorageQueue().postRunnable(() -> {
+            chatActivity.getMessagesController().getStoriesController().getStoriesStorage().updateMessagesWithStories(messageObjects);
+        });
+        if (!wasExpired && messageObject.isExpiredStory() && messageObject.type == MessageObject.TYPE_STORY_MENTION) {
+            chatActivity.updateMessages(messageObjects, true);
+            return;
+        }
+        chatActivity.updateMessages(messageObjects, false);
     }
 }
