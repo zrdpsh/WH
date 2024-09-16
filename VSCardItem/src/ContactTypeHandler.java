@@ -1,43 +1,12 @@
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-
-/**
- * 35 ?? инструкций
- * ЦС первоначального метода - 3
- *
- * Значения выбираются при помощи разветвлённой if-else
- *
- * 1. Избавление от if-else с помощью ad-hoc полиморфизма
- * 2. Избавление от switch
- *      добавил интерфейс TypeHandler и 11 классов-наследников -
- *      добавил класс ContactTypeHandler,
- *      внутри вызов getType и статический дата-класс
- *      "значение на вход - нужный TypeHandler на выход"
- *
- * 3. Избавление от проверок на Null
- *
- *
- * ЦС нового кода - 1
- */
-
-public class VScardItem {
-
-    public ArrayList<String> vcardData = new ArrayList<>();
-    public String fullData = "";
-    public int type;
-    public boolean checked = true;
-
-    public String getType() {
-        return ContactTypeHandler.getType(type, fullData);
-    }
-}
 
 public class ContactTypeHandler {
     private static final Map<Integer, TypeHandler> handlers = new HashMap<>();
     private static final Map<String, TypeHandler> specialCaseHandlers = new HashMap<>();
 
+    // Static block to initialize handlers
     static {
         handlers.put(3, new UrlHandler());
         handlers.put(4, new NoteHandler());
@@ -53,7 +22,7 @@ public class ContactTypeHandler {
         specialCaseHandlers.put("WORK", new WorkHandler());
     }
 
-    public static String getType(int type, String fullData) {
+    public String getType(int type, String fullData) {
         TypeHandler handler = handlers.get(type);
         return Optional
                 .ofNullable(handler.handle(fullData))
@@ -105,8 +74,7 @@ public class ContactTypeHandler {
             String value = fullData.substring(0, idx);
             value = value.substring(2);
             String[] args = value.split(";");
-            return  args[0].substring(0, 1).toUpperCase()
-                    + value.substring(1).toLowerCase();
+            return args[0];
         }
     }
 
@@ -131,22 +99,71 @@ public class ContactTypeHandler {
                 value = value.substring(2);
             }
 
+            // Delegate special cases to appropriate handlers
             TypeHandler specialCaseHandler = specialCaseHandlers.get(value.toUpperCase());
-//            if (specialCaseHandler != null) {
-//                return specialCaseHandler.handle(fullData);
-//            }
-//
-//            value = value.substring(0, 1).toUpperCase() + value.substring(1).toLowerCase();
-//            return value;
-            String result = Optional
-                    .ofNullable(specialCaseHandler.handle(fullData))
-                    .orElse("there were no applicable String");
+            if (specialCaseHandler != null) {
+                return specialCaseHandler.handle(fullData);
+            }
 
-            result = result.substring(0, 1).toUpperCase() + value.substring(1).toLowerCase();
-            return result;
-
+            value = value.substring(0, 1).toUpperCase() + value.substring(1).toLowerCase();
+            return value;
         }
     }
+
+//    static class AHandler implements TypeHandler {
+//
+//        @Override
+//        public String handle(String fullData) {
+//            int idx = fullData.indexOf(':');
+//            if (idx < 0) {
+//                return "";
+//            }
+//            String value = fullData.substring(0, idx);
+//            value = value.substring(2);
+//            String[] args = value.split(";");
+//
+//            value = handleAdditionalCases(value, idx);
+//            value = value.substring(0, 1).toUpperCase() + value.substring(1).toLowerCase();
+//            return value;
+//        }
+//
+//        public String handleAdditionalCases(String value) {
+//            return "";
+//        }
+//    }
+//
+//
+//    static class Type20Handler extends AHandler {
+//        @Override
+//        public String handleAdditionalCases(String value) {
+//            value = value.substring(2);
+//            String[] args = value.split(";");
+//            return args[0];
+//        }
+//    }
+
+//    static class TypeRestHandler extends AHandler {
+//        @Override
+//        public String handleAdditionalCases(String value) {
+//            String[] args = value.split(";");
+//            for (int a = 0; a < args.length; a++) {
+//                if (args[a].indexOf('=') >= 0) {
+//                    continue;
+//                }
+//                value = args[a];
+//            }
+//            if (value.startsWith("X-")) {
+//                value = value.substring(2);
+//            }
+//            value = getResultingPhone(value);
+//            return value;
+//        }
+//
+//        public String getResultingPhone(String value) {
+//            return "default phone value";
+//        }
+//    }
+
 
     static class PrefHandler implements TypeHandler {
         @Override
@@ -182,5 +199,4 @@ public class ContactTypeHandler {
             return getString(R.string.PhoneWork);
         }
     }
-
 }
