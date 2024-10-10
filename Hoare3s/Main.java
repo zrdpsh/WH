@@ -21,6 +21,7 @@ public class Main {
         return result;
     }
 
+
     static int max(int a, int b) {
         int result;
         if (a > b) {
