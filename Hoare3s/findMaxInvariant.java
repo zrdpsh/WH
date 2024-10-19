@@ -20,18 +20,22 @@
 
 
 public static void main(String[]args){
+        
 //{ arr.length > 0 }
         int findMax(int[] arr) {
         int max = arr[0];
+                
 //{ max is the maximum element in the subarray arr[0..i-1] }
             for (int i = 1; i < arr.length; i++) {
                     if (arr[i] > max) {
                     max = arr[i];
                 }
             }
+                
 //{ max -> maximum element in arr[0..arr.length-1] }
         return max;
         }
+        
 //{ result = max(arr) }
 }
 
