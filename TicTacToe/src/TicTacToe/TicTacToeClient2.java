@@ -18,6 +18,7 @@ import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 
 
+
 public class TicTacToeClient2 extends Application implements TicTacToeConstants {
 
     // Immutable class to represent the state of the game
