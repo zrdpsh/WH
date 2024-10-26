@@ -185,15 +185,15 @@ public class WordCounterTest {
 
     private boolean compareStrings(String expected, String actual) {
         if (expected.length() != actual.length()) {
-            return false; // Different lengths
+            return false;
         }
 
         for (int i = 0; i < expected.length(); i++) {
             if (expected.charAt(i) != actual.charAt(i)) {
                 System.out.println("Difference at index " + i + ": expected '" + expected.charAt(i) + "', but got '" + actual.charAt(i) + "'");
-                return false; // Found a difference
+                return false;
             }
         }
-        return true; // Strings are equal
+        return true;
     }
 }
