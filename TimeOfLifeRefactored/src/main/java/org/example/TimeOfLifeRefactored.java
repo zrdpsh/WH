@@ -173,8 +173,8 @@ class TimeOfLife {
  - если получилось сопоставить - перевести во внутреннее представление (разбить на части /распарсить)
  - внутреннее представление - ещё одна трансформация данных - вывести в консоль
 
- сейчас
- которые естественно представлять в виде отдельной структуры данных (назовём её TimeUnit)
+в коде очевидно выделяется тип данных, соответствующий единице времени - название и обработка каждой такой единицы - выделим её в отдельную структуру, TimeUnit.
+Имея её, тривиально переписываются объявление класса, вычисление срока жизни и финальный вывод в консоль.
  */
 
 
@@ -183,6 +183,7 @@ class TimeOfLife {
 public class TimeOfLifeRefactored {
 
     private LocalDateTime birthDateTime;
+    private final String FORMAT_BIRTHDATE_STRING = "yyyy-MM-dd HH:mm";
 
     public TimeOfLifeRefactored(LocalDateTime birthDateTime) {
         this.birthDateTime = birthDateTime;
@@ -215,28 +216,52 @@ public class TimeOfLifeRefactored {
         }
     }
 
-    // Calculate and display time of life in all units
+     private Boolean verifyInfoString(String userInfo) {
+        Boolean pat1 = Pattern.matches("^[012]\\d:[012345]\\d\\s[0123]\\d\\s[01]\\d\\s[12]\\d{3}$", userInfo.trim());
+        Boolean pat2 = Pattern.matches("^[0123]\\d\\s[01]\\d\\s[12]\\d{3}$", userInfo.trim());
+        return pat1 || pat2;
+    }
+
+
     public void calculateAndDisplayTimeOfLife() {
         LocalDateTime now = LocalDateTime.now();
-        System.out.println("Birthdate: " + birthDateTime);
-        System.out.println("Current date: " + now);
+        System.out.println("День рождения: " + birthDateTime);
+        System.out.println("Текущая дата: " + now);
 
-        // Use an EnumMap to store the calculated values
         Map<TimeUnit, Long> timeValues = new EnumMap<>(TimeUnit.class);
         for (TimeUnit unit : TimeUnit.values()) {
             timeValues.put(unit, unit.calculate(birthDateTime, now));
         }
 
-        // Display the calculated time in each unit
         timeValues.forEach((unit, value) ->
-                System.out.printf("Life in %s: %d%n", unit.getName(), value)
+                System.out.printf("Время жизни в %s: %d%n", unit.getName(), value)
         );
     }
 
+     static String infoFromScanner() {
+        Scanner scan = new Scanner(System.in);
+        String z = scan.nextLine();
+        scan.close();
+        return z;
+    }
+
+     void errorOutAndExit() {
+        System.out.println("Вы ввели информацию НЕ ПРАВИЛЬНО!\nНужно ввести ДОБ в таком виде: (\"00:00 18 06 1980\" или \"18 06 1980\")");
+        System.exit(0);
+    }
+
     public static void main(String[] args) {
-        LocalDateTime birthDateTime = LocalDateTime.of(1990, 5, 15, 12, 0);
-        TimeOfLife timeOfLife = new TimeOfLife(birthDateTime);
-        timeOfLife.calculateAndDisplayTimeOfLife();
+         System.out.println("\nВведите свое время/дату рождения в формате (\"hh:mm dd mm yyyy\" или \"dd mm yyyy\"): ");
+         String info = infoFromScanner();
+        if(verifyInfoString(info)) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern(FORMAT_BIRTHDATE_STRING);
+            LocalDateTime birthDataTime = LocalDateTime.parse(info, formatter);
+         
+           TimeOfLife timeOfLife = new TimeOfLife(birthDateTime);
+           timeOfLife.calculateAndDisplayTimeOfLife();
+           return;
+        }
+        errorOutAndExit()
     }
 }
 
