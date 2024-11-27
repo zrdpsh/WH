@@ -51,7 +51,7 @@ public class RomanToArabicTests {
     }
 
     @Test
-    void testingnvalidInputs() {
+    void testingInvalidInputs() {
         assertThrows(IllegalArgumentException.class, () -> converter.convertRomanToArabic("IIII"));
         assertThrows(IllegalArgumentException.class, () -> converter.convertRomanToArabic("VX"));
     }
