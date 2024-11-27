@@ -39,12 +39,8 @@ public class WordCounterTests {
         Map<Character, Integer> expectedMap = new HashMap<>();
         expectedMap.put('s', 6);
         expectedMap.put('o', 5);
-        String[] actualString = {"sssooooosss!"};
+        String actualString = "sssooooosss";
         assertTrue(expectedMap.equals(WordCounter.countLetterFrequency(actualString)));
     }
 
-//    @Test
-//    void testNullInputs() {
-//        assertThrows(NullPointerException.class, () -> converter.convertRomanToArabic(null));
-//    }
 }

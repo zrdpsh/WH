@@ -18,4 +18,13 @@ public class WordCounter {
         }
         return frequency;
     }
+
+    public static Map<Character, Integer> countLetterFrequency(String text) {
+        Map<Character, Integer> frequency = new HashMap<>();
+        for (char letter: text.toCharArray()) {
+            frequency.put(letter, frequency.getOrDefault(letter, 0) + 1);
+        }
+        return frequency;
+    }
+
 }
