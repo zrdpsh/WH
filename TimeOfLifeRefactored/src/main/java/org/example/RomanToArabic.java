@@ -23,13 +23,21 @@ public class RomanToArabic {
 
     public static int convertRomanToArabic(String roman) {
         int sum = 0;
-        int previousValue;
+        int previousValue = 0;
 
         for (int i = roman.length() -1; i >= 0; i--) {
             char currentCharacter = roman.charAt(i);
 
             int currentValue = romanToArabicMap.get(currentCharacter);
-            sum += currentValue;
+            if (currentValue < previousValue) {
+                 sum -= currentValue;
+            }
+            if (currentValue >= previousValue) {
+                sum += currentValue;
+            }
+
+            previousValue = currentValue;
+
         }
         return sum;
     }

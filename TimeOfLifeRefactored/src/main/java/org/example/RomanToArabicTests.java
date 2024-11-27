@@ -3,6 +3,7 @@ package org.example;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class RomanToArabicTests {
 
@@ -31,5 +32,30 @@ public class RomanToArabicTests {
         assertEquals(15, converter.convertRomanToArabic("XV"));
         assertEquals(55, converter.convertRomanToArabic("LV"));
     }
+
+    @Test
+    void testComplexNumerals() {
+        assertEquals(58, converter.convertRomanToArabic("LVIII"));
+        assertEquals(1994, converter.convertRomanToArabic("MCMXCIV"));
+        assertEquals(2023, converter.convertRomanToArabic("MMXXIII"));
+    }
+
+    @Test
+    void testNullInputs() {
+        assertThrows(NullPointerException.class, () -> converter.convertRomanToArabic(null));
+    }
+
+    @Test
+    void testEmptyInput() {
+        assertThrows(IllegalArgumentException.class, () -> converter.convertRomanToArabic(""));
+    }
+
+    @Test
+    void testingnvalidInputs() {
+        assertThrows(IllegalArgumentException.class, () -> converter.convertRomanToArabic("IIII"));
+        assertThrows(IllegalArgumentException.class, () -> converter.convertRomanToArabic("VX"));
+    }
+
+
 
 }
