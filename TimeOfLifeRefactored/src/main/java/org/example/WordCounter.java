@@ -4,6 +4,7 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
 
 public class WordCounter {
     public static String normalizeText(String text) {
@@ -41,6 +42,27 @@ public class WordCounter {
             frequency.put(letter, frequency.getOrDefault(letter, 0) + 1);
         }
         return frequency;
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter a text:");
+        String input = scanner.nextLine();
+
+        String normalizedText = normalizeText(input);
+        String[] words = splitIntoWords(normalizedText);
+        Map<String, Integer> wordFrequency = countWordFrequency(words);
+
+        Map<Character, Integer> letterFrequency = countLetterFrequency(words);
+
+        System.out.println("\nResults:");
+        System.out.println("Number of words: " + words.length);
+        System.out.println("Word frequencies:");
+        wordFrequency.forEach((word, count) -> System.out.println("  " + word + ": " + count));
+
+        System.out.println("\nNumber of letters: " + letterFrequency.keySet().size());
+        System.out.println("Letter frequencies:");
+        letterFrequency.forEach((letter, count) -> System.out.println("  " + letter + ": " + count));
     }
 
 }

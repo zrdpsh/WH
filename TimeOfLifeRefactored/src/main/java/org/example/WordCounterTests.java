@@ -50,7 +50,7 @@ public class WordCounterTests {
         expectedMap.put('s', 7);
         expectedMap.put('o', 6);
         String actualString = "so sssooooosss!";
-        assertTrue(expectedMap.equals(wc.countWordFrequency(wc.splitIntoWords(wc.normalizeText(actualString)))));
+        assertTrue(expectedMap.equals(wc.countLetterFrequency(wc.splitIntoWords(wc.normalizeText(actualString)))));
     }
 
 }
