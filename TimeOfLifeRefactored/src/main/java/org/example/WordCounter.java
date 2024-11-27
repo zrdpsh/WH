@@ -8,7 +8,11 @@ import java.util.Scanner;
 
 public class WordCounter {
     public static String normalizeText(String text) {
-        return text.replaceAll("[^a-zA-Z\\s]", "").toLowerCase();
+        String txt = text.replaceAll("[^a-zA-Z\\s]", "").toLowerCase();
+        if (txt.matches("\\s")){
+            throw new IllegalArgumentException("empty string has no words or letters");
+        }
+        return txt;
     }
     public static String[] splitIntoWords(String text) {
         return text.split("\\s+");
@@ -16,6 +20,7 @@ public class WordCounter {
 
     public static Map<String, Integer> countWordFrequency(String[] words) {
         Map<String, Integer> frequency = new HashMap<>();
+
         for (String word: words) {
             frequency.put(word, frequency.getOrDefault(word, 0) + 1);
         }
