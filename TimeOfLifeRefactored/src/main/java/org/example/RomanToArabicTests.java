@@ -24,4 +24,12 @@ public class RomanToArabicTests {
         assertEquals(1000, converter.convertRomanToArabic("M"));
     }
 
+    @Test
+    void testSimpleCombinations() {
+        assertEquals(2, converter.convertRomanToArabic("II"));
+        assertEquals(6, converter.convertRomanToArabic("VI"));
+        assertEquals(15, converter.convertRomanToArabic("XV"));
+        assertEquals(55, converter.convertRomanToArabic("LV"));
+    }
+
 }
