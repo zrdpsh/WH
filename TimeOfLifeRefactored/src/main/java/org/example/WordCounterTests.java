@@ -2,8 +2,9 @@ package org.example;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import java.util.Arrays;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class WordCounterTests {
 
@@ -12,6 +13,14 @@ public class WordCounterTests {
         String actual = "Saint -petersburg#1703";
         String expected = "saint petersburg";
         assertEquals(expected, WordCounter.normalizeText(actual));
+    }
+
+    @Test
+    void splitWordsTest() {
+        String actual = "Saint -petersburg#1703";
+        String[] expected = {"saint", "petersburg"};
+        String[] result = WordCounter.splitIntoWords(WordCounter.normalizeText(actual));
+        assertTrue(Arrays.equals(expected, result));
     }
 
 //    @Test
