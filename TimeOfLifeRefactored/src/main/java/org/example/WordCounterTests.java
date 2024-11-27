@@ -20,7 +20,7 @@ public class WordCounterTests {
     @Test
     void emptyStringTest() {
         String actual = " ";
-        assertThrows(NullPointerException.class, () -> WordCounter.normalizeText(actual));
+        assertThrows(IllegalArgumentException.class, () -> WordCounter.normalizeText(actual));
     }
 
     @Test
