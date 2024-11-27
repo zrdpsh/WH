@@ -25,8 +25,14 @@ public class RomanToArabic {
         int sum = 0;
         int previousValue = 0;
 
+        if (roman.length() == 0) throw new IllegalArgumentException("empty input!");
+
         for (int i = roman.length() -1; i >= 0; i--) {
             char currentCharacter = roman.charAt(i);
+
+            if (!romanToArabicMap.containsKey(currentCharacter)) {
+                throw new IllegalArgumentException("invalid input:" + roman);
+            }
 
             int currentValue = romanToArabicMap.get(currentCharacter);
             if (currentValue < previousValue) {
