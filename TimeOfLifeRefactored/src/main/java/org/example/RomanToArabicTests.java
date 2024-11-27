@@ -56,6 +56,13 @@ public class RomanToArabicTests {
         assertThrows(IllegalArgumentException.class, () -> converter.convertRomanToArabic("VX"));
     }
 
+//    @Test
+//    void testComplexNumerals() {
+//        assertEquals(58, converter.convertRomanToArabic("LVIII"));
+//        assertEquals(1994, converter.convertRomanToArabic("MCMXCIV"));
+//        assertEquals(2023, converter.convertRomanToArabic("MMXXIII"));
+//    }
+
 
 
 }
