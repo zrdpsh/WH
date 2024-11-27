@@ -40,7 +40,17 @@ public class WordCounterTests {
         expectedMap.put('s', 6);
         expectedMap.put('o', 5);
         String actualString = "sssooooosss";
-        assertTrue(expectedMap.equals(WordCounter.countLetterFrequency(actualString)));
+        assertTrue(expectedMap.equals(WordCounter.countSeparateWordLetters(actualString)));
+    }
+
+    @Test
+    void multipleWordLettersFrequencyTest() {
+        WordCounter wc = new WordCounter();
+        Map<Character, Integer> expectedMap = new HashMap<>();
+        expectedMap.put('s', 7);
+        expectedMap.put('o', 6);
+        String actualString = "so sssooooosss!";
+        assertTrue(expectedMap.equals(wc.countWordFrequency(wc.splitIntoWords(wc.normalizeText(actualString)))));
     }
 
 }
