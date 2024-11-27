@@ -18,6 +18,12 @@ public class WordCounterTests {
     }
 
     @Test
+    void emptyStringTest() {
+        String actual = " ";
+        assertThrows(NullPointerException.class, () -> WordCounter.normalizeText(actual));
+    }
+
+    @Test
     void splitWordsTest() {
         String actual = "Saint -petersburg#1703";
         String[] expected = {"saint", "petersburg"};
