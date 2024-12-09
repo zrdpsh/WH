@@ -7,7 +7,9 @@ public class FixedDepositAccount extends Account {
 
     @Override
     public double calculateTax() {
-        return balance * 0.15 - 24;
+        balance = balance * 0.15;
+        if (balance >= 100) return balance- 24;
+        return balance;
     }
 
 }
