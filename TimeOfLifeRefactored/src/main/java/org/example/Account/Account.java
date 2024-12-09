@@ -8,4 +8,8 @@ abstract class Account {
     }
 
     public abstract double calculateTax();
+
+    public void accept(AccountVisitor visitor) {
+        visitor.visit(this);
+    }
 }
