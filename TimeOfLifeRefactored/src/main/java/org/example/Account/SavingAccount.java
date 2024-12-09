@@ -5,8 +5,13 @@ public class SavingAccount extends Account{
         super(balance);
     }
 
+//    @Override
+//    public double calculateTax() {
+//        return balance * 0.10;
+//    }
+
     @Override
-    public double calculateTax() {
-        return balance * 0.10;
+    public void accept(AccountVisitor visitor) {
+        visitor.visit(this);
     }
 }

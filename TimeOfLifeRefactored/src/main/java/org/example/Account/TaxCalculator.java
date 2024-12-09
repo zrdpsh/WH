@@ -6,8 +6,14 @@ public class TaxCalculator {
         Account fixedDeposit = new FixedDepositAccount(1000);
         Account mutualFund = new MutualFundAccount(1000);
 
-        System.out.println("Savings Tax: " + savings.calculateTax());
-        System.out.println("Fixed Deposit Tax: " + fixedDeposit.calculateTax());
-        System.out.println("Mutual Fund Tax: " + mutualFund.calculateTax());
+        AccountVisitor taxCalculator = new TaxCalculatorVisitor();
+
+//        System.out.println("Savings Tax: " + savings.calculateTax());
+//        System.out.println("Fixed Deposit Tax: " + fixedDeposit.calculateTax());
+//        System.out.println("Mutual Fund Tax: " + mutualFund.calculateTax());
+
+        savings.accept(taxCalculator);
+        fixedDeposit.accept(taxCalculator);
+        mutualFund.accept(taxCalculator);
     }
 }

@@ -7,9 +7,7 @@ abstract class Account {
         this.balance = balance;
     }
 
-    public abstract double calculateTax();
+//    public abstract double calculateTax();
 
-    public void accept(AccountVisitor visitor) {
-        visitor.visit(this);
-    }
+    public abstract void accept(AccountVisitor visitor);
 }
