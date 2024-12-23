@@ -2,6 +2,7 @@ Steps of changes
 
 - [первый проект](https://github.com/zrdpsh/WH/blob/main/TimeOfLifeRefactored/src/main/java/org/example/RomanToArabic.java) и [тесты для него](https://github.com/zrdpsh/WH/blob/main/TimeOfLifeRefactored/src/main/java/org/example/RomanToArabicTests.java)
 - [второй проект](https://github.com/zrdpsh/WH/blob/main/TimeOfLifeRefactored/src/main/java/org/example/WordCounter.java) и [тесты](https://github.com/zrdpsh/WH/blob/main/TimeOfLifeRefactored/src/main/java/org/example/WordCounterTests.java)
+- 
 
 - Сначала было непривычно, хотя идея кажется логичным следствием уже знакомой философии - чем больше думаешь, тем меньше печатаешь.
 
