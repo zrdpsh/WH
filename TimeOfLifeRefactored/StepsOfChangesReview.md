@@ -3,6 +3,7 @@ Steps of changes
 - [первый проект](https://github.com/zrdpsh/WH/blob/main/TimeOfLifeRefactored/src/main/java/org/example/RomanToArabic.java) и [тесты для него](https://github.com/zrdpsh/WH/blob/main/TimeOfLifeRefactored/src/main/java/org/example/RomanToArabicTests.java)
 - [второй проект](https://github.com/zrdpsh/WH/blob/main/TimeOfLifeRefactored/src/main/java/org/example/WordCounter.java) и [тесты](https://github.com/zrdpsh/WH/blob/main/TimeOfLifeRefactored/src/main/java/org/example/WordCounterTests.java)
 
+
 - Сначала было непривычно, хотя идея кажется логичным следствием уже знакомой философии - чем больше думаешь, тем меньше печатаешь.
 
 - Непривычно, что такой подход заставляет думать ещё медленнее, чем обычно - особенно много времени тратится на придумывание имен новым тестам. Поскольку тестов много, самые очевидные и общие, обозначающие не столько логику, сколько этап написания программы, определения быстро заканчиваются (BasicTest, PreliminaryTest, DefaultTest) и чтобы найти новые. нужно тормозить и соображать, какой именно элемент общей конструкции ты сейчас пишешь. Приходится представлять код гораздо более детально.

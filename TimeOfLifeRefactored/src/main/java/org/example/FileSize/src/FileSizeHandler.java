@@ -3,8 +3,6 @@
 //    public static String formatFileSize(long size, boolean removeZero, boolean makeShort) {
 //        if (size !== null) {
 //
-//
-//
 //            if (size == 0) {
 //                return String.format("%d KB", 0);
 //            } else if (size < 1024) {
