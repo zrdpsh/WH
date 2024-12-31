@@ -13,6 +13,7 @@ public class WordCounterApp {
             return;
         }
 
+        
         if (args[0].endsWith(".txt")) {
             wordCounter.getTheText(args[0]);
         }
